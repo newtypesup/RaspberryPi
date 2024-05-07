@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2x2 버튼</title>
+<style>
+
+    
+
+    .button-container {
+        display: flex;
+        justify-content: flex-start; /* 왼쪽 정렬 */
+        align-items: flex-start; /* 맨 위 정렬 */
+        height: 80vh; /* 화면 높이의 80%로 설정 */
+        background-color:#1D2228;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* 버튼을 맨 위로 정렬 */
+        align-items: flex-start; /* 버튼을 왼쪽으로 정렬 */
+        margin-right: 1vw; /* 각 열 사이의 간격을 더 벌림 */
+        margin-top: 1vh; /* 각 열의 맨 위 간격 설정 */
+    }
+
+    .button {
+        width: 16vw; /* 버튼의 가로 넓이를 화면 너비의 비율로 설정 */
+        height: 37vh; /* 버튼의 세로 길이를 화면 높이의 비율로 설정 */
+        background-color: #737A84;
+        border: none;
+        color: white;
+        font-size: 2vw; /* 폰트 크기를 화면 너비의 비율로 설정 */
+        cursor: pointer;
+        margin-bottom: 1vh; /* 버튼 아래 간격을 설정 */
+        margin-left: 1.5vw; /* 왼쪽 벽과의 간격을 설정 */
+        position: relative; /* 추가된 버튼의 위치를 설정하기 위해 position을 추가 */
+       
+    
+
+    }
+
+    .Oil-button,
+    .Water-button,
+    .Air-button,
+    .Blow-button,
+    .Purge-button,
+    .ATC-button,
+    .nozzle-button,
+    .white-button,
+    .blue-button,
+    .home-button,
+    .Load-button,
+    .Local-button,
+    .USB-button,
+    .Network-button
+
+    {
+        position: absolute; /* 작은 버튼의 위치 설정 */
+        background-color: #344955; /* 버튼 배경색을 회색으로 변경 */
+        border: none;
+        color: snow;
+        font-size: 1.5vw; /* 폰트 크기를 화면 너비의 비율로 설정 */
+        cursor: pointer;
+        padding: 1vh 2vw; /* 내부 여백 설정 */
+        width: 10vw; /* 버튼의 가로 크기를 화면 너비의 비율로 설정 */
+        height: 5vh; /* 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+        text-align: center; /* 텍스트를 가운데 정렬 */
+    }
+
+    .Oil-button {
+        top: 1vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 1vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+
+    .Water-button {
+        top: 18vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 1vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+
+    .Air-button {
+        top: 60vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 17.5vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+
+    .Blow-button {
+        top: 67.5vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 17.5vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+
+    .Purge-button {
+        top: 75vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 17.5vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+
+    .empty-space {
+        display: flex;
+        flex-direction: column; /* 추가 버튼을 세로로 배치하기 위해 설정 */
+        justify-content: flex-start; /* 맨 위 정렬 */
+        align-items: flex-start; /* 왼쪽 정렬 */
+        height: 80vh; /* 공백의 높이를 화면 높이의 80%로 설정 */
+        margin-right: 3vw; /* 각 열 사이의 간격을 더 벌림 */
+    }
+
+    .big-button {
+        width: 45vw; /* 버튼의 가로 넓이를 화면 너비의 비율로 설정 */
+        height: 60vh; /* 버튼의 세로 길이를 화면 높이의 비율로 설정 */
+        background-color: #737A84;
+        border: none;
+        color: white;
+        font-size: 3vw; /* 폰트 크기를 화면 너비의 비율로 설정 */
+        cursor: pointer;
+        margin-bottom: 1vh; /* 버튼 아래 간격을 설정 */
+        margin-left: 1vw; /* 왼쪽 벽과의 간격을 설정 */
+        margin-top: 1vh; /* 버튼 맨 위 간격을 설정 */
+    }
+
+    .additional-buttons {
+        display: flex;
+        flex-direction: row; /* 추가 버튼을 가로로 배치하기 위해 설정 */
+        justify-content: flex-end; /* 오른쪽 정렬로 변경 */
+        align-items: center;
+        margin-top: 1vh; /* 추가 버튼의 맨 위 간격 설정 */
+    }
+
+    .additional-button {
+        width: 21vw; /* 추가 버튼의 가로 크기를 화면 너비의 비율로 설정 */
+        height: 13vh; /* 추가 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+        background-color: snow; /* 버튼 배경색 */
+        border: none;
+        color: white;
+        font-size: 1.5vw; /* 폰트 크기를 화면 너비의 비율로 설정 */
+        cursor: pointer;
+        margin-left: 2vw; /* 왼쪽 간격 조정 */
+    }
+
+    /* 추가된 네모박스 스타일 */
+    .Oil-box {
+        width: 14vw; /* 네모박스의 가로 크기를 설정 */
+        height: 5vh; /* 네모박스의 세로 크기를 설정 */
+        background-color: #f5f5f5; /* 배경색을 회색으로 설정 */
+        position: absolute; /* 상대 위치 지정 */
+        top: 8.5vh; /* 현재 위치에서 약간 위로 이동 */
+        left: 1vw; /* 현재 위치에서 왼쪽으로 이동 */
+    }
+    .Water-box {
+        width: 14vw; /* 네모박스의 가로 크기를 설정 */
+        height: 5vh; /* 네모박스의 세로 크기를 설정 */
+        background-color: #f5f5f5; /* 배경색을 회색으로 설정 */
+        position: absolute; /* 상대 위치 지정 */
+        top: 25.5vh; /* 현재 위치에서 약간 위로 이동 */
+        left: 1vw; /* 현재 위치에서 왼쪽으로 이동 */
+    }
+    .Air-Pressure-box {
+        width: 14vw;
+        height: 5vh;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 82.5vh;
+        left: 17.5vw;
+    }
+    .ATC-button {
+        top: 23vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 36vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+    .open-box {
+        width: 14vw;
+        height: 5vh;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 30.5vh; /* 현재 위치에서 약간 위로 이동 */
+        left: 36vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+    .close-box {
+        width: 14vw;
+        height: 5vh;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 36vh; /* 현재 위치에서 약간 위로 이동 */
+        left: 36vw; /* 현재 위치에서 왼쪽으로 이동 */
+    }
+    .tool-box {
+        width: 14vw;
+        height: 5vh;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 41.5vh; /* 현재 위치에서 약간 위로 이동 */
+        left: 36vw; /* 현재 위치에서 왼쪽으로 이동 */
+    }
+    .home-button {
+        top: 60vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 36vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+    .nozzle-button {
+        top: 68vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 36vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+    }
+    .white-button {
+        top: 77vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 36vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+        height: 6vh; /* 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+        text-align: center; /* 텍스트를 가운데 정렬 */
+    }
+    .blue-button {
+        top: 86vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 36vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+        height: 6vh; /* 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+    }
+    .Load-button {
+        top: 23vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 54vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+        height: 3.5vh; /* 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+    }
+    .Local-button {
+        top: 32vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 54vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+        height: 7vh; /* 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+    }
+    .USB-button {
+        top: 48vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 54vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+        height: 7vh; /* 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+    }
+    .Network-button {
+        top: 65vh; /* 위에서 화면 높이의 비율로 설정 */
+        left: 54vw; /* 왼쪽에서 화면 너비의 비율로 설정 */
+        height: 7vh; /* 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+    }
+
+    .pc-box {
+        width: 34vw;
+        height: 9vh;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 32vh; /* 현재 위치에서 약간 위로 이동 */
+        left: 63vw; /* 현재 위치에서 왼쪽으로 이동 */
+        white-space: nowrap; /* 텍스트가 네모박스를 넘어가도록 허용하지 않음 */
+        overflow: hidden; /* 네모박스를 넘어가는 텍스트를 숨김 */
+        text-overflow: ellipsis; /* 텍스트가 네모박스를 넘어갈 경우 말줄임표(...)를 표시 */
+    }
+    .sb-box {
+        width: 34vw;
+        height: 9vh;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 48vh; /* 현재 위치에서 약간 위로 이동 */
+        left: 63vw; /* 현재 위치에서 왼쪽으로 이동 */
+    }
+    .work-box {
+        width: 34vw;  /*네모박스의 가로크기 */ 
+        height: 9vh;  /*네모박스의 세로크기 */ 
+        background-color: #f5f5f5; /*네모박스의 색상 */ 
+        position: absolute;   /*네모박스의 위치 대비 */ 
+        top: 65vh; /* 현재 위치에서 약간 위로 이동 */
+        left: 63vw; /* 현재 위치에서 왼쪽으로 이동 */
+    }
+    .Save-button {
+        width: 21vw; /* 추가 버튼의 가로 크기를 화면 너비의 비율로 설정 */
+        height: 13vh; /* 추가 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+        background-color: #737A84; /* 버튼의 배경색을 회색으로 변경 */
+        border: none;
+        color: white;
+        font-size: 1.5vw; /* 폰트 크기를 화면 너비의 비율로 설정 */
+        cursor: pointer;
+        margin-left: 2vw; /* 왼쪽 간격 조정 */
+    }
+    .Close-button {
+        width: 21vw; /* 추가 버튼의 가로 크기를 화면 너비의 비율로 설정 */
+        height: 13vh; /* 추가 버튼의 세로 크기를 화면 높이의 비율로 설정 */
+        background-color: #737A84; /* 버튼의 배경색을 회색으로 변경 */
+        border: none;
+        color: white;
+        font-size: 1.5vw; /* 폰트 크기를 화면 너비의 비율로 설정 */
+        cursor: pointer;
+        margin-left: 2vw; /* 왼쪽 간격 조정 */
+    }
+    
+    .Local-button,
+    .USB-button,
+    .Network-button {
+        width: 5vw; /* 원하는 가로 너비로 설정 */
+    }
+
+    .ATC-button,
+    .open-box,
+    .close-box,
+    .tool-box,
+    .Oil-button,
+    .Water-button,
+    .Air-button,
+    .Blow-button,
+    .Purge-button,
+    .ATC-button,
+    .nozzle-button,
+    .white-button,
+    .blue-button,
+    .home-button,
+    .Load-button,
+    .Local-button,
+    .USB-button,
+    .Network-button,
+    .pc-box,
+    .sb-box,
+    .work-box
+     {
+        font-size: 1.2vw; /* 또는 다른 원하는 크기로 설정 */
+        text-align: center; /* 텍스트를 가운데 정렬 */
+        display: flex; /* 요소를 플렉스 박스로 지정하여 수직 및 수평 중앙 정렬을 위해 */
+        justify-content: center; /* 수평으로 가운데 정렬 */
+        align-items: center; /* 수직으로 가운데 정렬 *    
+    }
+
+
+    
+    
+
+</style>
+</head>
+<body>
+
+<div class="button-container">
+    <div class="column">
+        <button class="button">
+            <span id="btnOil" class="Oil-button">Coolant Oil</span>
+            <span id="Oil" class="Oil-box"></span> <!-- 추가된 네모박스 -->
+            <span id="btnwater" class="Water-button" >Coolant Water</span>
+            <span id="water" class="Water-box"></span>
+        </button>
+        <button class="button"></button>
+            <span id="btnAir" class="Air-button">Coolant Air</span>
+            <span id="btnBlow" class="Blow-button">Air Blow</span>
+            <span id="btnPurge" class="Purge-button">Spindle Purge</span>
+            <span id="box" class="Air-Pressure-box"></span>
+    </div>
+    <div class="column">
+        <button class="button"></button>
+            <span id="btnATC" class="ATC-button">ATC Door</span>
+            <span id="open" class="open-box">ATC Door Open</span>
+            <span id="close" class="close-box">ATC Door Close</span>
+            <span id="tool" class="tool-box">Tool Detector</span>
+            <button class="button"></button>
+            <span id="btnhome" class="home-button">Home</span>
+            <span id="btnnozzle" class="nozzle-button">Nozzle </span>
+            <span id="btnwhite" class="white-button">White LED </span>
+            <span id="btnblue" class="blue-button">Blue LED </span>
+            
+    </div>
+    <div class="empty-space">
+        <button class="big-button"></button>
+        <span id="btnLoad" class="Load-button">Load Setting</span>
+        <span id="btnLocal" class="Local-button">Local</span>
+        <span id="pc" class="pc-box"></span>
+        <span id="btnUSB" class="USB-button">External USB</span>
+        <span id="sb" class="sb-box"></span>
+        <span id="btnNetwork" class="Network-button">Network</span>
+        <span id="work" class="work-box"></span>
+        <div class="additional-buttons">
+            <button class="Save-button">Save</button>
+            <button class="Close-button" onclick="location.href='{% url 'auto'%}'">Close</button>
+        </div>
+    </div> <!-- 오른쪽 공백 -->
+</div>
+
+<script>
+
+    btnOil.addEventListener("click", () => {
+        // Oil-box 요소를 가져옴
+        var oilBox = document.getElementById("Oil");
+        
+        // 현재 Oil-box에 텍스트가 있는지 확인하고 초기화
+        if (oilBox.textContent === "Gate Cylinder B") {
+            oilBox.textContent = ""; // 텍스트 초기화
+        } else {
+            // Oil-box에 텍스트 설정
+            oilBox.textContent = "Gate Cylinder B";
+            // 텍스트 스타일 변경
+            oilBox.style.fontSize = "1.3vw"; // 텍스트 사이즈 줄임
+            oilBox.style.color = "black"; // 텍스트 색상 검정색으로 변경
+            // 텍스트의 위치를 조정하여 아래쪽에 나타나도록 함
+            oilBox.style.lineHeight = "5vh"; // 텍스트의 높이를 설정하고, 이 값을 조정하여 텍스트의 수직 위치를 조절할 수 있습니다.
+        }
+    });
+    
+    
+    btnwater.addEventListener("click", () => {
+        // Water-box 요소를 가져옴
+        var waterBox = document.getElementById("water");
+        
+        // 현재 Water-box에 텍스트가 있는지 확인하고 초기화
+        if (waterBox.textContent === "Gate Cylinder F") {
+            waterBox.textContent = ""; // 텍스트 초기화
+        } else {
+            // Water-box에 텍스트 설정
+            waterBox.textContent = "Gate Cylinder F";
+            // 텍스트 스타일 변경
+            waterBox.style.fontSize = "1.3vw"; // 텍스트 사이즈 줄임
+            waterBox.style.color = "black"; // 텍스트 색상 검정색으로 변경
+            // 텍스트의 위치를 조정하여 아래쪽에 나타나도록 함
+            waterBox.style.lineHeight = "5vh"; // 텍스트의 높이를 설정하고, 이 값을 조정하여 텍스트의 수직 위치를 조절할 수 있습니다.
+        }
+    });
+    
+
+
+      // 각 버튼의 상태를 추적하는 변수들
+var airClicked = false;
+var blowClicked = false;
+var purgeClicked = false;
+
+btnAir.addEventListener("click", (e) => {
+    // airClicked 값에 따라서 버튼 상태를 토글
+    airClicked = !airClicked;
+    
+    // airClicked 값에 따라 배경색 설정
+    if (airClicked) {
+        box.style.backgroundColor = "red";
+    } else {
+        box.style.backgroundColor = "white";
+    }
+});
+
+btnBlow.addEventListener("click", (e) => {
+    // blowClicked 값에 따라서 버튼 상태를 토글
+    blowClicked = !blowClicked;
+    
+    // blowClicked 값에 따라 배경색 설정
+    if (blowClicked) {
+        box.style.backgroundColor = "yellow";
+    } else {
+        box.style.backgroundColor = "white";
+    }
+});
+
+btnPurge.addEventListener("click", (e) => {
+    // purgeClicked 값에 따라서 버튼 상태를 토글
+    purgeClicked = !purgeClicked;
+    
+    // purgeClicked 값에 따라 배경색 설정
+    if (purgeClicked) {
+        box.style.backgroundColor = "blue";
+    } else {
+        box.style.backgroundColor = "white";
+    }
+});
+
+const btnHome = document.getElementById("btnhome");
+
+btnHome.addEventListener("click", () => {
+    location.reload(); // 화면 새로고침
+});
+
+const btnLocal = document.getElementById("btnLocal");
+const pcBox = document.getElementById("pc");
+
+btnLocal.addEventListener("click", () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'text/*'; // 선택 가능한 파일 형식을 텍스트 파일로 제한합니다.
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                pcBox.textContent = event.target.result; // 파일 경로를 보여줍니다.
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    fileInput.click(); // 파일 선택 다이얼로그를 엽니다.
+});
+
+// White LED 상태를 추적하는 변수
+var whiteClicked = false;
+
+const btnWhite = document.getElementById("btnwhite"); // 수정된 부분
+
+btnWhite.addEventListener("click", (e) => {
+    // whiteClicked 값에 따라서 White LED 상태를 토글
+    whiteClicked = !whiteClicked;
+    
+    // whiteClicked 값에 따라 배경색 설정
+    if (whiteClicked) {
+        btnWhite.style.backgroundColor = "#FFFF99"; // 파스텔 색의 노란색
+        // Blue LED 버튼을 회색으로 변경
+        btnblue.style.backgroundColor = "#cccccc";
+    } else {
+        btnWhite.style.backgroundColor = "#cccccc"; // 회색으로 변경
+    }
+});
+
+// Blue LED 상태를 추적하는 변수
+var blueClicked = false;
+
+const btnblue = document.getElementById("btnblue"); // 추가된 부분
+
+btnblue.addEventListener("click", (e) => {
+    // blueClicked 값에 따라서 Blue LED 상태를 토글
+    blueClicked = !blueClicked;
+    // blueClicked 값에 따라 배경색 설정
+    if (blueClicked) {
+        btnblue.style.backgroundColor = "#ADD8E6"; // 파스텔 색의 파란색
+        // White LED 버튼을 회색으로 변경
+        btnWhite.style.backgroundColor = "#cccccc";
+    } else {
+        btnblue.style.backgroundColor = "#cccccc"; // 회색으로 변경
+    }
+});
+
+
+
+const btnSave = document.querySelector(".Save-button");
+
+btnSave.addEventListener("click", () => {
+    const pcBox = document.querySelector(".pc-box");
+
+    // 경로가 없을 때만 알림을 표시합니다.
+    if (pcBox.textContent.trim() === "") {
+        alert("저장된 경로가 없습니다.");
+    } else {
+        pcBox.dataset.saved = "true"; // 데이터 세트를 사용하여 저장된 여부를 표시합니다.
+        alert("저장되었습니다.");
+    }
+});
+
+const btnLoad = document.querySelector(".Load-button");
+
+btnLoad.addEventListener("click", () => {
+    const pcBox = document.querySelector(".pc-box");
+
+    // 저장된 여부를 확인합니다.
+    const saved = pcBox.dataset.saved === "true";
+
+    // 저장된 경로가 있는 경우와 없는 경우에 따라 알림을 표시합니다.
+    if (saved) {
+        alert("경로가 로드되었습니다.");
+    } else {
+        alert("저장된 경로가 없습니다.");
+    }
+});
+
+
+
+
+      
+    </script>
+
+</body>
+</html>

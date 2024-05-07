@@ -1,0 +1,288 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>tool</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/tool.css'%}">
+    </head>
+    <body>
+        <div class="background-1">
+            <div class="info-1">
+                <span class ="info">
+                    <div>
+                        <span>Current Tool</span>
+                        <input type="text" value="0" class="toolinput" id="current-tool">
+                        <span>Selected Tool</span>
+                        <input type="text" value="0" class="toolinput" id="selected-tool">
+                    </div>
+                </span>
+            </div>
+            <div class="info-2">
+                <span class="info">
+                    <div class="data-s">
+                        <span class="data-1">No.</span>
+                        <span class="data-1">d</span>
+                        <span class="data-1">Comp</span>
+                        <span class="data-1">L1</span>
+                        <span class="data-1">L2</span>
+                        <span class="data-1">Using</span>
+                        <span class="data-1">Limit</span>
+                    </div>
+                    <div class="data-s">
+                        <button class="data-btn" onclick="selectToolFromButton(this)">
+                            <span>0</span>
+                            <span>&nbsp;</sapn>
+                            <span>&nbsp;</sapn>
+                            <span>&nbsp;</sapn>
+                            <span>&nbsp;</sapn>
+                            <span>&nbsp;</sapn> 
+                            <span>Tool Empty</span>
+                        </button>
+        
+                    </div>
+                    <div> 
+                        <button class="data-btn" onclick="selectToolFromButton(this)">
+                            <span class="data-2">1</span>
+                            <span class="data-2">3.0000</span>
+                            <span class="data-2">0.0000</span>
+                            <span class="data-2">27.0000</span>
+                            <span class="data-2">27.3835</span>
+                            <span class="data-2">0:00</span>
+                            <span class="data-2">30:00</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="data-btn" onclick="selectToolFromButton(this)">
+                            <span class="data-2">2</span>
+                            <span class="data-2">2.0000</span>
+                            <span class="data-2">0.0000</span>
+                            <span class="data-2">28.0000</span>
+                            <span class="data-2">29.221</span>
+                            <span class="data-2">0:00</span>
+                            <span class="data-2">30:00</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="data-btn" onclick="selectToolFromButton(this)">
+                            <span class="data-2">3</span>
+                            <span class="data-2">1.5000</span>
+                            <span class="data-2">0.0000</span>
+                            <span class="data-2">30.0000</span>
+                            <span class="data-2">29.8015</span>
+                            <span class="data-2">0:00</span>
+                            <span class="data-2">30:00</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="data-btn" onclick="selectToolFromButton(this)">
+                            <span class="data-2">4</span>
+                            <span class="data-2">1.0000</span>
+                            <span class="data-2">0.0000</span>
+                            <span class="data-2">26.0000</span>
+                            <span class="data-2">26.7960</span>
+                            <span class="data-2">0:00</span>
+                            <span class="data-2">30:00</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="data-btn" onclick="selectToolFromButton(this)">
+                            <span class="data-2">5</span>
+                            <span class="data-2">2.0000</span>
+                            <span class="data-2">0.0000</span>
+                            <span class="data-2">37.0000</span>
+                            <span class="data-2">37.1285</span>
+                            <span class="data-2">0:00</span>
+                            <span class="data-2">35:00</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="data-btn" onclick="selectToolFromButton(this)">
+                            <span class="data-2">6</span>
+                            <span class="data-2">1.0000</span>
+                            <span class="data-2">0.0000</span>
+                            <span class="data-2">34.0000</span>
+                            <span class="data-2">34.5225</span>
+                            <span class="data-2">0:00</span>
+                            <span class="data-2">33:00</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="data-btn" onclick="selectToolFromButton(this)">
+                            <span class="data-2">7</span>
+                            <span class="data-2">0.6000</span>
+                            <span class="data-2">0.0000</span>
+                            <span class="data-2">31.0000</span>
+                            <span class="data-2">31.2050</span>
+                            <span class="data-2">0:00</span>
+                            <span class="data-2">17:00</span>
+                        </button>
+                    </div>
+                </span>
+            </div>
+            <span id="main-content">
+                <button class="main-btn"onclick="PositionChangeButton(this)">
+                    <span class="text-content">Position</span>
+                    <br>
+                    <span class="text-content">Change</span>
+                    <img src="{% static 'image/PPTE.png' %}">
+                </button>
+                <button class="main-btn" onclick="ToolReturnButton(this)">
+                    <span class="text-content">Tool</span>
+                    <br>
+                    <span class="text-content">Return</span>
+                    <img src="{% static 'image/tt.png' %}">
+                </button>
+                <button class="main-btn" onclick="ToolChangeButton(this)">
+                    <span class="text-content">Tool</span>
+                    <br>
+                    <span class="text-content">Change</span>
+                    <img src="{% static 'image/cc.png' %}">
+                </button>
+                <button class="main-btn" onclick="StopTCButton(this)">
+                    <div class="one-text">
+                    <span class="text-content">Stop TC</span>
+                    <img src="{% static 'image/close.png' %}">
+                    </div>
+                </button>
+                <button class="main-btn" onclick="SaveButton(this)">
+                    <div class="one-text">
+                    <span class="text-content-2">Save</span>
+                    <img src="{% static 'image/save.png' %}">
+                    </div>
+                </button>
+                <br>
+                <button class="main-btn" onclick="location.href='{% url 'auto'%}'">
+                    <div class="one-text">
+                    <span class="text-content-2">Close</span>
+                    <img src="{% static 'image/close.png' %}">
+                    </div>
+                </button>
+            </span>
+        </div>
+        <script>
+            function selectToolFromButton(button) {
+                toolNumber = 0;
+                var toolNumber = button.querySelector('span').textContent;
+                document.getElementById('selected-tool').value = toolNumber;
+            }
+            
+            var isGifPlaying = false;
+            
+            function PositionChangeButton(button) {
+                if (!isGifPlaying) {
+                    isGifPlaying = true;
+                    var gifImage = document.createElement('img');
+                    gifImage.src = "{% static 'image/pc.gif' %}";
+                    gifImage.style.width = '50%';
+                    gifImage.style.height = '50%';
+                    gifImage.style.position = 'absolute';
+                    gifImage.style.top = '50%';
+                    gifImage.style.left = '50%';
+                    gifImage.style.transform = 'translate(-50%, -50%)';
+                    document.body.appendChild(gifImage);
+            
+                    setTimeout(function() {
+                        document.body.removeChild(gifImage);
+                        isGifPlaying = false;
+                    }, 5000);
+                }
+            }
+            function ToolReturnButton(button) {
+                if (!isGifPlaying && document.getElementById('current-tool').value !== "0") {
+                    isGifPlaying = true;
+                    var previousselectedTool = document.getElementById('selected-tool').value;
+                    var previouscurrentTool = document.getElementById('current-tool').value;
+            
+                    var gifImage = document.createElement('img');
+                    gifImage.src = "{% static 'image/tr.gif' %}";
+                    gifImage.style.width = '50%';
+                    gifImage.style.height = '50%';
+                    gifImage.style.position = 'absolute';
+                    gifImage.style.top = '50%';
+                    gifImage.style.left = '50%';
+                    gifImage.style.transform = 'translate(-50%, -50%)';
+                    document.body.appendChild(gifImage);
+                    
+                    setTimeout(function() {
+                        document.body.removeChild(gifImage);
+                        isGifPlaying = false;
+                    }, 1500);
+                    document.getElementById('selected-tool').value = 0;
+                    document.getElementById('current-tool').value = 0;
+                }
+            }
+            function ToolChangeButton(button) {
+                if (!isGifPlaying) {
+                    var selectedTool = document.getElementById('selected-tool').value;
+                    var currentTool = document.getElementById('current-tool').value;
+            
+                    if (selectedTool !== "0" && currentTool === "0") {
+                        isGifPlaying = true;
+                        var previousselectedTool = document.getElementById('selected-tool').value;
+                        var previouscurrentTool = document.getElementById('current-tool').value;
+                        document.getElementById('current-tool').value = selectedTool;
+                        document.getElementById('selected-tool').value = "0";
+            
+                        var gifImage = document.createElement('img');
+                        gifImage.src = "{% static 'image/tc0.gif' %}";
+                        gifImage.style = "width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);";
+                        document.body.appendChild(gifImage);
+            
+                        setTimeout(function() {
+                            document.body.removeChild(gifImage);
+                            isGifPlaying = false;
+                        }, 1250);
+                    }
+                    else if (selectedTool !== "0" && currentTool !== "0" && selectedTool !== currentTool) {
+                        isGifPlaying = true;
+                        var previousselectedTool = document.getElementById('selected-tool').value;
+                        var previouscurrentTool = document.getElementById('current-tool').value;
+                        document.getElementById('current-tool').value = previousselectedTool;
+                        document.getElementById('selected-tool').value = previouscurrentTool;
+            
+                        var gifImage = document.createElement('img');
+                        gifImage.src = "{% static 'image/tc1.gif' %}";
+                        gifImage.style = "width: 50%; height: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);";
+                        document.body.appendChild(gifImage);
+            
+                        setTimeout(function() {
+                            document.body.removeChild(gifImage);
+                            isGifPlaying = false;
+                        }, 2750);
+                    }
+                }
+            }
+            function StopTCButton(button) {
+                if (isGifPlaying) {
+                    var previousselectedTool = document.getElementById('selected-tool').value;
+                    var previouscurrentTool = document.getElementById('current-tool').value;
+                    var gifImages = document.querySelectorAll('img[src$=".gif"]');
+                    
+                    if (gifImages) {
+                        for (var i = 0; i < gifImages.length; i++) {
+                            gifImages[i].style.display = 'none';
+                        }
+                        isGifPlaying = false;
+                    }
+                    document.getElementById('selected-tool').value = previouscurrentTool;
+                    document.getElementById('current-tool').value = previousselectedTool;
+                }
+            }
+            function SaveButton(button) {
+                var selectedToolValue = document.getElementById('selected-tool').value;
+                
+                var popupMessage = " Selected Tool " + selectedToolValue + " 로 설정 되었습니다. ";
+                
+                var screenWidth = window.screen.width;
+                var screenHeight = window.screen.height;
+                
+                var leftPosition = (screenWidth / 2) - (300 / 2);
+                var topPosition = screenHeight * 0.5;
+                
+                var newWindow = window.open("", "_blank", "width=300, height=100,left=" + leftPosition + ",top=" + topPosition);
+                newWindow.document.write("<p>" + popupMessage + "</p>");
+            }
+        </script>
+    </body>
+</html>

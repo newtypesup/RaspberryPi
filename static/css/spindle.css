@@ -1,0 +1,68 @@
+body,html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    
+}
+
+.spindle_container {
+    display: grid;
+    width:90%;
+    height:90%;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    
+}
+
+.align_col {
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    margin-top: 1vh;
+}
+
+.progress-bar {
+    width: 28vw;
+    height: 30px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0;
+    height: 100%;
+    background-color: #ffc285;
+}
+
+.transition{
+   transition: width 1s ease-in-out;
+}
+
+.hidden {
+    display: none;
+}
+
+.btn_warmingup {
+    margin-top:15%;
+    grid-column: 3/4;
+    grid-row: 2/3;
+    height: 35%;
+    width:90%;
+}
+.btn_close{
+    margin-top:15%;
+    grid-column: 4/4;
+    grid-row: 2/3;
+    height:35%;
+    width:90%;
+}

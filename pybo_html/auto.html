@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>프레임 나누기</title>
+
+<style>
+    .file-input {
+        display: none;
+    }
+    .file_label {
+        background-color: #235355;
+        padding: 6px 6px;
+        cursor: pointer;
+    }
+    .file_name {
+        background-color: white;
+        font-size: 10px;
+        width:45vw;
+        height:7vh
+    }
+    .cln_btn{
+        margin-top:10px;
+        width:13vw;
+        height:8vh;
+    }
+    .autooff_btn{
+        margin-top:10px;
+        width:13vw;
+        height:8vh;
+    }
+    .btn_font{
+        font-size:10px;
+    }
+    .head_contain{
+        width:100%;
+        height:100px;
+        display:flex;
+        flex-direction:row;
+  
+    }
+    .center_contain{
+        width:90%;
+        height:90%;
+        display:flex;
+        flex-direction:row;
+        align-item:center;
+        font-size:10px;
+        position:relative;
+    }
+    .start_btn{
+        margin-left:20px;
+        height:40vh;
+        width:13vw;
+
+    }
+    .center_btn{
+        margin-left:5px;
+        width:13vw;
+        height:20vh;
+        display:flex;
+        flex-direction:row;
+        font-size:15px;
+    }
+
+    .side_btn{
+        height:20vh;
+        margin-bottom:5px;
+        margin-left:5px;
+    }
+    .center_span{
+        position:absolute; 
+        bottom:1.5vh;
+        left:15.5vw;
+        
+        font-color:white;
+        font-size:20px;
+        width:26.3vw;
+        height:19vh;
+        text-align:center;       
+    }
+</style>
+</head>
+<body>
+    <div class="head_contain">
+        <div id="file-container">
+            <input type="file" id="file-input" class="file-input" onchange="displayFilePath()">
+            <input type="text" id="file-name-entry" class="file_name">
+            <label for="file-input" class="file_label"><img src="{% static 'image/menu.png'%}" style=" width:3vw;height:3vh;"></label>
+            <button class="cln_btn"><span class="btn_font">CLN</span>
+                <span><img src="{% static 'image/restart.png'%}"  style=" width: 2vw; height: 3vh;">
+                    </span>
+            </button>
+            <button class="autooff_btn">
+                <span class="btn_font">Auto Off</span>
+                <span><img src="{% static 'image/off.png'%}" style="width: 2vw; height: 3vh;"></span>           
+            </button>  
+        </div>
+    </div>
+    <div class="center_contain" >
+       <button class="start_btn" onclick="startTimer()">
+        <span  ><img src="{% static 'image/start.png'%}"style="width:10vw;height:20vh; " >
+            </span>
+        </button>
+        <button class="center_btn">
+            <span style="text-align:center;">OIL</span>
+            <span><br><img src="{% static 'image/coolant_oil.png'%}" style="width:10vw;height:13vh; left:5vw;"></span>
+        </button>
+        <button class="center_btn">
+            <span>water</span>
+            <span><br><img src="{% static 'image/coolant_water.png'%}" style="width:10vw;height:13vh;"></span>
+        </button>
+        <button class="center_btn">
+            <span>coolant air</span>
+            <span><br><img src="{% static 'image/coolant_air.png'%}" style="width:10vw;height:13vh;"></span>
+        </button>
+        <button class="center_btn">
+            <span>air blow</span>
+            <span><br><img src="{% static 'image/air_blow.png'%}" style="width:10vw;height:13vh;"></span>
+        </button>
+        <div style="display:flex;flex-direction: column;">
+        <button class="side_btn">
+            <span>
+            <img class="img_style" src="{% static 'image/pause.png'%}"style="width:8vw;height:11vh;">         
+            </span>
+        </button>
+        <button class="side_btn" onclick="stopTimer()">
+            <span>
+            <img class="img_style" src="{% static 'image/stop.png'%}"style="width:100%;height:100%;">         
+            </span>
+        </button>
+        <div style="position:absolute; bottom:1.5vh;left:15.5vw;background-color:#1D2228;font-size:20px;color:white;width:24vw;height:19vh;text-align:center;">
+            <span style="position:relative;top:35%;">Run Time</span>
+            </div>
+        <div style="position:absolute; bottom:1.5vh;left:42.5vw;background-color:#1D2228;font-size:20px;color:white;width:24vw;height:19vh;text-align:center;">
+            <span id="running" style="position:relative;top:35%;">00:00:00</span>
+            </div>
+        </div>
+        <div>
+       
+    </div>
+    </div>
+
+    <script>
+        function displayFilePath() {
+            var fileInput = document.getElementById('file-input');
+            // 파일 이름을 가져와서 파일 이름 엔트리에 표시
+            var fileNameEntry = document.getElementById('file-name-entry');
+            fileNameEntry.value = fileInput.files[0].name;
+        }
+
+        var runningSpan = document.getElementById("running");
+        var interval;
+        var seconds = 0;
+        var minutes = 0;
+        var hours = 0;
+
+        function startTimer() {
+            interval = setInterval(updateTime, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(interval);
+            seconds = 0;
+         minutes = 0;
+         hours = 0;
+         runningSpan.innerText = "00:00:00";
+         runningSpan2.innerText = "00:00:00";
+        }
+
+        function updateTime() {
+            seconds++;
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+            }
+        }
+
+        var displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+        var displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        var displayHours = hours < 10 ? "0" + hours : hours;
+
+        runningSpan.innerText = displayHours + ":" + displayMinutes + ":" + displaySeconds;
+        runningSpan2.innerText = displayHours + ":" + displayMinutes + ":" + displaySeconds;
+        }
+
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>manual</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manual.css'%}">
+</head>
+<body>
+    <div class="info-popup-1">
+        <button class="main-btn btn_default_color local_1" id="m_btn1">
+            <div class="one-text">
+            <img id="img_color" src="{% static 'image/Local.png' %}">
+            </div>
+        </button>
+    </div>
+    <div>
+        <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none;">
+    </div>
+    
+    <div class="info-popup-2">
+        <table class="info-table" id="fileInfoTable">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Size</th>
+                    <th>Modified</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 동적으로 정보 추가 -->
+            </tbody>
+        </table>
+    </div>
+
+    <span id="manual_main-content">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <button class="main-btn btn_default_color" id="loadButton">
+            <div class="one-text">
+            <span class="text-content-2">Load</span>
+            <img src="{% static 'image/load.png' %}">
+            </div>
+        </button>
+
+        <div class="custom-popup" id="popup">
+            <div class="popup-content">
+                <span class="close-btn" id="closeButton">&times;</span>
+                <p>저장되었습니다.</p>
+            </div>
+        </div>
+
+        <button class="main-btn btn_default_color" onclick="location.href='{% url 'auto'%}'">
+            <div class="one-text">
+            <span class="text-content-2">Cancel</span>
+            <img src="{% static 'image/cancel.png' %}">
+            </div>
+        </button>
+    </span>
+
+    <script src="/static/js/manual.js" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,681 @@
+{% load static %} <!-- static 파일을 사용하기 위해 불러옵니다. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4구역으로 나눠진 화면</title>
+<style>
+  body {
+    color:black; 
+    width:100%;
+    height:100%;
+  }
+
+  /* 그리드로 구역,열,행 레이아웃 나누기 */
+  .jog_main_container {
+    background-color: #1D2228;
+    display: grid; 
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 1vh;
+    height: auto; 
+    width: 100%;
+    font-size: 10px;
+    color: black;
+  }
+  .jog_box_01 {
+    background-color: #1D2228;
+    padding: 0.75vw;
+    text-align: center;
+    height: 36vh; 
+    margin-top: 1vh;
+    font-size: 10px;
+  }
+  /* 테이블이 포함된 특정 박스에 대한 스타일 설정 */
+  .jog_box_02 {
+    background-color: snow;
+    height: 65%;
+    width: 40vw;
+    margin: 1vw;
+    margin-top: 4vh;
+    border: 3px solid black;
+    font-size: 80%;
+}
+
+  /* 그리드마다 각각 번호 지정하여 css 그리드 영역 설정 */
+  .jog_box_01:nth-child(1) { grid-area: 1 / 1 / 2 / 2; }
+  .jog_box_01:nth-child(2) { grid-area: 1 / 2 / 2 / 3; }
+  .jog_box_01:nth-child(3) { grid-area: 2 / 1 / 3 / 2; }
+  .jog_box_01:nth-child(4) { grid-area: 2 / 2 / 3 / 3; }
+
+  .jog_button-container {
+    display: flex; /* 플렉스 디스플레이로 배치 */
+    flex-wrap: wrap; /* 버튼이 넘칠 경우 다음 줄로 넘어감 */
+    gap: 0.5vh; /* 버튼 간격 */
+    margin-top: 1vh; /* 위쪽 여백 */
+    width: 100%; /* 부모 요소의 너비에 맞게 확장 */
+    font-size: 10px; /* 폰트 크기 */
+
+    /*border: 1px solid black;*/ /* 테두리 스타일 (주석 처리) */
+  }
+
+  /* 버튼 공통 스타일 */
+  .jog_button_01,
+  .jog_button_02,
+  .jog_button_03 {
+    color:#black;
+    flex: 1; 
+    padding: 1.5%;
+    border: none;
+    cursor: pointer; 
+    font-size: 2vw;
+    background-color: #737A84;
+  }
+
+  /* 버튼이 호버되면 버튼의 색상을 다른색으로 변경 */
+  .jog_button_02:hover,
+  .jog_button_03:hover {
+    background-color: #BCD7DD; /* 호버 시 배경색 변경 */
+  }
+
+  .jog_button_03_cm{
+    height: 14vh;
+    width: 35vh; 
+    font-size: 10px;
+    background-color: #737A84;
+    color: snow; 
+  }
+
+  .jog_btn001{
+    background-color: #BCD7DD; /* 선택 시 배경색 변경 */
+    color: #000; /* 선택 시 텍스트 색상 변경 */
+  }
+
+  table {
+    width: 100%; /* 테이블 너비 100% */
+    border-collapse: collapse; /* 테두리 합치기 */
+    font-size: 10px; /* 폰트 크기 */
+    height: 100%; /* 테이블 높이 100% */
+  }
+
+  th {
+      padding: 5px; /* 안쪽 여백 */
+      text-align: center; /* 텍스트 가운데 정렬 */
+      border-bottom: 1px solid black; /* 아래쪽 테두리 */
+      font-size: 10px; /* 폰트 크기 */
+      width: 20vw; /* 너비 */
+  }
+  td {
+    padding: 2%; /* 안쪽 여백 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    border-bottom: 1px solid black; /* 아래쪽 테두리 */
+    font-size: 60%; /* 폰트 크기 */
+    width: 20vw; /* 너비 */
+    height: 1vh; /* 높이 */
+  }
+  
+  tr {
+    height: 5vh;
+  }
+
+  th:first-child,
+  td:first-child {
+      border-left: none;
+  }
+
+
+  th:last-child,
+  td:last-child {
+      border-right: none;
+  }
+
+  td:empty {
+      min-width: 50%;
+  }
+
+  th:first-child {
+      padding: 1vh 1vw;
+  }
+
+  tr:last-child th,
+  tr:last-child td {
+      border-bottom: none;
+  }
+</style>
+</head>
+<body>
+<div class="jog_main_container">
+  <!-- 박스1 -->
+  <div class="jog_box_01">
+    <div class="jog_button-container">
+      <!-- 버튼 그룹 1) 한번 클릭하는 버튼, 계속 누르는 버튼-->
+      <button class="jog_button_01" id="J" onclick="JogStepSave(this)">Jog Step</button>
+      <button class="jog_button_01" id="C" onclick="ContinuousSave(this)">Continuous</button>
+      <button class="jog_button_01">Ctn T</button>
+    </div>
+    <!-- 버튼 그룹 2) 숫자 단위 0.01, 0.05 버튼 -->
+    <div class="jog_button-container">
+      <button class="jog_button_01" id="btn_001" onclick="zero_zero_one(this)">0.01</button>
+      <button class="jog_button_01" id="btn_005" onclick="zero_zero_five(this)">0.05</button>
+    </div>
+    <!-- 버튼 그룹 3) 숫자 단위 0.1, 0.5 버튼 -->
+    <div class="jog_button-container">
+      <button class="jog_button_01" id="btn_01" onclick="zero_one(this)">0.1</button>
+      <button class="jog_button_01" id="btn_05" onclick="zero_five(this)">0.5</button>
+    </div>
+    <!-- 버튼 그룹 4) 그 외 버튼 -->
+    <div class="jog_button-container">
+      <button class="jog_button_01">Unit Select</button>
+      <button class="jog_button_01">0.00000<br>Inc. Movement</button>
+    </div>
+  </div>
+  
+  <!-- 박스2) 기계가 움직이는 값을 바로 나타내는 테이블 표-->
+  <div class="jog_box_02">
+    <table>
+      <tr style="background-color: #50727B;">
+        <th style="text-align: left;">좌표</th>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>X</td>
+        <td></td>
+        <td style="text-align: right" id="x-axis">0</td>
+      </tr>
+      <tr>
+        <td>Y</td>
+        <td></td>
+        <td style="text-align: right" id="y-axis">0</td>
+      </tr>
+      <tr>
+        <td>Z</td>
+        <td></td>
+        <td style="text-align: right" id="z-axis">0</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td></td>
+        <td style="text-align: right" id="b-axis">0</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 박스3) 축 조정을 위한 버튼 그룹 -->
+  <div class="jog_box_01">
+    <div class="jog_button-container">
+        <button class="jog_button_02">A-</button>
+        <button class="jog_button_02" id="btn_y_minus" onclick="btnY_minus_axis(this)">Y-</button>
+        <button class="jog_button_02">A+</button>
+    </div>
+    <div class="jog_button-container">
+        <button class="jog_button_02" id="btn_x_minus" onclick="btnX_minus_axis(this)">X-</button>
+        <button class="jog_button_02">VISON</button>
+        <button class="jog_button_02" id="btn_x_plus" onclick="btnX_axis(this)">X+</button>
+    </div>
+    <div class="jog_button-container">
+        <button class="jog_button_02" id="btn_b_minus" onclick="btnB_minus_axis(this)">B-</button>
+        <button class="jog_button_02" id="btn_y_plus" onclick="btnY_axis(this)">Y+</button>
+        <button class="jog_button_02" id="btn_b_plus" onclick="btnB_axis(this)">B+</button>
+    </div>
+    <div class="jog_button-container">
+        <button class="jog_button_02" id="btn_z_plus" onclick="btnZ_axis(this)">Z+</button>
+        <button class="jog_button_02" id="btn_z_minus" onclick="btnZ_minus_axis(this)">Z-</button>
+    </div>
+  </div>
+
+  <!-- 박스4 -->
+  <div class="jog_box_01">
+    <div class="jog_button-container">
+      <button class="jog_button_03_cm">
+          <span style="float: center; font-size: 10px">jog Pos. Change<br><br></span>
+          <span><img src="{% static 'image/change.png'%}" alt="Icon" style="width: 5vh; height: 5vh;"></span>
+      </button>
+      <button class="jog_button_03_cm">
+        <span style="float: center; font-size: 10px">Stop<br><br></span>
+        <!-- 아이콘만 키우기 -->
+        <span><img src="{% static 'image/stop(2).png'%}" alt="Icon" style="width: 5vh; height: 5vh;"></span>
+    </button>
+  </div>
+  
+  <div class="jog_button-container">
+    <button class="jog_button_03_cm" onclick="location.href='{% url 'auto'%}'">
+        <span style="float: center; font-size: 10px">Home<br><br></span>
+        <span><img src="{% static 'image/home.png'%}" alt="Icon" style="width: 5vh; height: 5vh;"></span>
+    </button>
+    <button class="jog_button_03_cm" id="closeButton">
+      <span style="float: center; font-size: 10px">Close<br><br></span>
+      <span><img src="{% static 'image/x.png'%}" alt="Icon" style="width: 6vh; height: 4vh;"></span>
+  </button>
+</div>
+</div>
+</div>
+
+<script>
+
+  // 각 버튼에 대한 참조 설정
+  const btn_y_minus = document.querySelector("#btn_y_minus")
+  const btn_x_minus = document.querySelector("#btn_x_minus")
+  const btn_x_plus = document.querySelector("#btn_x_plus")
+  const btn_b_minus = document.querySelector("#btn_b_minus")
+  const btn_y_plus = document.querySelector("#btn_y_plus")
+  const btn_b_plus = document.querySelector("#btn_b_plus")
+  const btn_z_plus = document.querySelector("#btn_z_plus")
+  const btn_z_minus = document.querySelector("#btn_z_minus")
+  
+  const btn_001 = document.querySelector("#btn_001")
+  const btn_005 = document.querySelector("#btn_005")
+  const btn_01 = document.querySelector("#btn_01")
+  const btn_05 = document.querySelector("#btn_05")
+  
+  num = 0;  // 전역 변수로 숫자 값을 추적
+  
+  // 'Jog Step' 버튼 동작에 세션스토리지로 'jogStep' 값을 저장.
+    function JogStepSave(button){
+      sessionStorage.setItem('jogStep','JogStep');
+      const C = document.querySelector("#C");
+      C.classList.remove("jog_btn001")
+      
+      const isClicked = button.classList.contains("jog_btn001");
+      if(!isClicked){
+        button.classList.add("jog_btn001");
+      }
+    }
+  // 'Continuous' 버튼 동작에 세션스토리지로 'jogStep' 값을 저장.
+    function ContinuousSave(button){
+      sessionStorage.setItem('jogStep','Continuous');
+      const J = document.querySelector("#J");
+      J.classList.remove("jog_btn001");
+  
+      const isClicked = button.classList.contains("jog_btn001");
+      if(!isClicked){
+        button.classList.add("jog_btn001");
+      }
+    }
+  
+  // 숫자 버튼('0.01', '0.05', '0.1', '0.5') 동작을 정의합니다.
+  // 이 함수는 버튼 클릭 시 해당 값을 세션 저장소에 저장하고,
+  // 선택된 버튼에 'jog_btn001' 클래스를 토글합니다.
+    function zero_zero_one(button){
+      sessionStorage.setItem('num',0.01);
+      btn_001.classList.remove("jog_btn001")
+      btn_005.classList.remove("jog_btn001")
+      btn_01.classList.remove("jog_btn001")
+      btn_05.classList.remove("jog_btn001")
+      const isClicked = button.classList.contains("jog_btn001");
+      if(isClicked){
+        button.classList.remove("jog_btn001");
+      }else{
+        button.classList.add("jog_btn001");
+      }
+    }
+    function zero_zero_five(button){
+      sessionStorage.setItem('num',0.05);
+      btn_001.classList.remove("jog_btn001")
+      btn_005.classList.remove("jog_btn001")
+      btn_01.classList.remove("jog_btn001")
+      btn_05.classList.remove("jog_btn001")
+      const isClicked = button.classList.contains("jog_btn001");
+      if(isClicked){
+        button.classList.remove("jog_btn001");
+      }else{
+        button.classList.add("jog_btn001");
+      }
+    }
+    function zero_one(button){
+      sessionStorage.setItem('num',0.1);
+      btn_001.classList.remove("jog_btn001")
+      btn_005.classList.remove("jog_btn001")
+      btn_01.classList.remove("jog_btn001")
+      btn_05.classList.remove("jog_btn001")
+      const isClicked = button.classList.contains("jog_btn001");
+      if(isClicked){
+        button.classList.remove("jog_btn001");
+      }else{
+        button.classList.add("jog_btn001");
+      }
+    }
+    function zero_five(button){
+      sessionStorage.setItem('num',0.5);
+      btn_001.classList.remove("jog_btn001")
+      btn_005.classList.remove("jog_btn001")
+      btn_01.classList.remove("jog_btn001")
+      btn_05.classList.remove("jog_btn001")
+      const isClicked = button.classList.contains("jog_btn001");
+      if(isClicked){
+        button.classList.remove("jog_btn001");
+      }else{
+        button.classList.add("jog_btn001");
+      }
+    }
+  
+    function btnY_axis(){
+      const data = sessionStorage.getItem('jogStep')
+      const data001 = sessionStorage.getItem('num')
+      y_axis = document.getElementById("y-axis").innerText;
+  
+      if(data =='JogStep' && data001 == '0.01' ){
+        const y_num = parseFloat(y_axis)
+        const last_num = y_num + 0.01
+        document.getElementById('y-axis').innerText = last_num.toFixed(2);
+      }else if(data == 'JogStep' && data001 == '0.05'){
+        const y_num = parseFloat(y_axis)
+        const last_num = y_num + 0.05
+        document.getElementById('y-axis').innerText = last_num.toFixed(2);
+      }
+      else if(data == 'JogStep' && data001 == '0.1'){
+        const y_num = parseFloat(y_axis)
+        const last_num = y_num + 0.1
+        document.getElementById('y-axis').innerText = last_num.toFixed(2);
+      }
+      else if(data == 'JogStep' && data001 == '0.5'){
+        const y_num = parseFloat(y_axis)
+        const last_num = y_num + 0.5
+        document.getElementById('y-axis').innerText = last_num.toFixed(2);
+      }
+      else{
+        console.log("값이 없습니다.")
+      }
+    }
+  
+    let counter = 0.0
+    document.getElementById('btn_y_plus').addEventListener('mousedown', function(){
+      if(sessionStorage.getItem('jogStep') == 'Continuous'){
+        const increase_num = sessionStorage.getItem('num');
+        intervalId = setInterval(function(){
+          counter += parseFloat(increase_num);
+          document.getElementById('y-axis').innerText = counter.toFixed(2)
+        }, 100)
+      }
+    });
+  
+    document.getElementById('btn_y_plus').addEventListener('mouseup',function(){
+      clearInterval(intervalId);
+    })
+  
+    document.getElementById('btn_y_minus').addEventListener('mousedown', function(){
+      if(sessionStorage.getItem('jogStep') == 'Continuous'){
+        const increase_num = sessionStorage.getItem('num');
+        intervalId = setInterval(function(){
+          counter -= parseFloat(increase_num);
+          document.getElementById('y-axis').innerText = counter.toFixed(2)
+        }, 100)
+      }
+    });
+  
+    document.getElementById('btn_y_minus').addEventListener('mouseup',function(){
+      clearInterval(intervalId);
+    })
+  
+    document.getElementById('btn_x_plus').addEventListener('mousedown', function(){
+      if(sessionStorage.getItem('jogStep') == 'Continuous'){
+        const increase_num = sessionStorage.getItem('num');
+        intervalId = setInterval(function(){
+          counter += parseFloat(increase_num);
+          document.getElementById('x-axis').innerText = counter.toFixed(2)
+        }, 100)
+      }
+    });
+  
+    document.getElementById('btn_x_plus').addEventListener('mouseup',function(){
+      clearInterval(intervalId);
+    })
+  
+  
+    document.getElementById('btn_x_minus').addEventListener('mousedown', function(){
+      if(sessionStorage.getItem('jogStep') == 'Continuous'){
+        const increase_num = sessionStorage.getItem('num');
+        intervalId = setInterval(function(){
+          counter -= parseFloat(increase_num);
+          document.getElementById('x-axis').innerText = counter.toFixed(2)
+        }, 100)
+      }
+    });
+  
+    document.getElementById('btn_x_minus').addEventListener('mouseup',function(){
+      clearInterval(intervalId);
+    })
+  
+    
+      // y축 -
+    function btnY_minus_axis(){
+      const data = sessionStorage.getItem('jogStep')
+      const data001 = sessionStorage.getItem('num')
+      y_axis = document.getElementById("y-axis").innerText;
+  
+      if(data =='JogStep' && data001 == '0.01' ){
+        const y_num = parseFloat(y_axis)
+        const last_num = y_num - 0.01
+        document.getElementById('y-axis').innerText = last_num.toFixed(2);
+      }else if(data == 'JogStep' && data001 == '0.05'){
+        const y_num = parseFloat(y_axis)
+        const last_num = y_num - 0.05
+        document.getElementById('y-axis').innerText = last_num.toFixed(2);
+      }
+      else if(data == 'JogStep' && data001 == '0.1'){
+        const y_num = parseFloat(y_axis)
+        const last_num = y_num - 0.1
+        document.getElementById('y-axis').innerText = last_num.toFixed(2);
+      }
+      else if(data == 'JogStep' && data001 == '0.5'){
+        const y_num = parseFloat(y_axis)
+        const last_num = y_num - 0.5
+        document.getElementById('y-axis').innerText = last_num.toFixed(2);
+      }
+      else{
+        console.log("값이 없습니다.")
+      }
+    }
+  
+      // x축 +
+      function btnX_axis(){
+        const data = sessionStorage.getItem('jogStep')
+        const data001 = sessionStorage.getItem('num')
+        x_axis = document.getElementById("x-axis").innerText;
+    
+        if(data =='JogStep' && data001 == '0.01' ){
+          const x_num = parseFloat(x_axis)
+          const last_num = x_num + 0.01
+          document.getElementById('x-axis').innerText = last_num.toFixed(2);
+        }else if(data == 'JogStep' && data001 == '0.05'){
+          const x_num = parseFloat(x_axis)
+          const last_num = x_num + 0.05
+          document.getElementById('x-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.1'){
+          const x_num = parseFloat(x_axis)
+          const last_num = x_num + 0.1
+          document.getElementById('x-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.5'){
+          const x_num = parseFloat(x_axis)
+          const last_num = x_num + 0.5
+          document.getElementById('x-axis').innerText = last_num.toFixed(2);
+        }
+        else{
+          console.log("값이 없습니다.")
+        }
+      }
+  
+      // x축 -
+      function btnX_minus_axis(){
+        const data = sessionStorage.getItem('jogStep')
+        const data001 = sessionStorage.getItem('num')
+        x_axis = document.getElementById("x-axis").innerText;
+    
+        if(data =='JogStep' && data001 == '0.01' ){
+          const x_num = parseFloat(x_axis)
+          const last_num = x_num - 0.01
+          document.getElementById('x-axis').innerText = last_num.toFixed(2);
+        }else if(data == 'JogStep' && data001 == '0.05'){
+          const x_num = parseFloat(x_axis)
+          const last_num = x_num - 0.05
+          document.getElementById('x-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.1'){
+          const x_num = parseFloat(x_axis)
+          const last_num = x_num - 0.1
+          document.getElementById('x-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.5'){
+          const x_num = parseFloat(x_axis)
+          const last_num = x_num - 0.5
+          document.getElementById('x-axis').innerText = last_num.toFixed(2);
+        }
+        else{
+          console.log("값이 없습니다.")
+        }
+      }
+      
+      // Z축 +
+      function btnZ_axis(){
+        const data = sessionStorage.getItem('jogStep')
+        const data001 = sessionStorage.getItem('num')
+        z_axis = document.getElementById("z-axis").innerText;
+    
+        if(data =='JogStep' && data001 == '0.01' ){
+          const z_num = parseFloat(z_axis)
+          const last_num = z_num + 0.01
+          document.getElementById('z-axis').innerText = last_num.toFixed(2);
+        }else if(data == 'JogStep' && data001 == '0.05'){
+          const z_num = parseFloat(z_axis)
+          const last_num = z_num + 0.05
+          document.getElementById('z-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.1'){
+          const z_num = parseFloat(z_axis)
+          const last_num = z_num + 0.1
+          document.getElementById('z-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.5'){
+          const z_num = parseFloat(z_axis)
+          const last_num = z_num + 0.5
+          document.getElementById('z-axis').innerText = last_num.toFixed(2);
+        }
+        else{
+          console.log("값이 없습니다.")
+        }
+      }
+  
+      // Z축 -
+      function btnZ_minus_axis(){
+        const data = sessionStorage.getItem('jogStep')
+        const data001 = sessionStorage.getItem('num')
+        z_axis = document.getElementById("z-axis").innerText;
+    
+        if(data =='JogStep' && data001 == '0.01' ){
+          const z_num = parseFloat(z_axis)
+          const last_num = z_num - 0.01
+          document.getElementById('z-axis').innerText = last_num.toFixed(2);
+        }else if(data == 'JogStep' && data001 == '0.05'){
+          const z_num = parseFloat(z_axis)
+          const last_num = z_num - 0.05
+          document.getElementById('z-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.1'){
+          const z_num = parseFloat(z_axis)
+          const last_num = z_num - 0.1
+          document.getElementById('z-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.5'){
+          const z_num = parseFloat(z_axis)
+          const last_num = z_num - 0.5
+          document.getElementById('z-axis').innerText = last_num.toFixed(2);
+        }
+        else{
+          console.log("값이 없습니다.")
+        }
+      }
+      // B축 +
+      function btnB_axis(){
+      const data = sessionStorage.getItem('jogStep');
+      const data001 = sessionStorage.getItem('num');
+      b_axis = document.getElementById("b-axis").innerText;
+    
+        if(data =='JogStep' && data001 == '0.01' ){
+          const b_num = parseFloat(b_axis)
+          const last_num = b_num + 0.01
+          document.getElementById('b-axis').innerText = last_num.toFixed(2);
+        }else if(data == 'JogStep' && data001 == '0.05'){
+          const b_num = parseFloat(b_axis)
+          const last_num = b_num + 0.05
+          document.getElementById('b-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.1'){
+          const b_num = parseFloat(b_axis)
+          const last_num = b_num + 0.1
+          document.getElementById('b-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.5'){
+          const b_num = parseFloat(b_axis)
+          const last_num = b_num + 0.5
+          document.getElementById('b-axis').innerText = last_num.toFixed(2);
+        }
+        else{
+          console.log("값이 없습니다.")
+        }
+      }
+      // B축 -
+      function btnB_minus_axis(){
+        const data = sessionStorage.getItem('jogStep')
+        const data001 = sessionStorage.getItem('num')
+        b_axis = document.getElementById("b-axis").innerText;
+    
+        if(data =='JogStep' && data001 == '0.01' ){
+          const b_num = parseFloat(b_axis)
+          const last_num = b_num - 0.01
+          document.getElementById('b-axis').innerText = last_num.toFixed(2);
+        }else if(data == 'JogStep' && data001 == '0.05'){
+          const b_num = parseFloat(b_axis)
+          const last_num = b_num - 0.05
+          document.getElementById('b-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.1'){
+          const b_num = parseFloat(b_axis)
+          const last_num = b_num - 0.1
+          document.getElementById('b-axis').innerText = last_num.toFixed(2);
+        }
+        else if(data == 'JogStep' && data001 == '0.5'){
+          const b_num = parseFloat(b_axis)
+          const last_num = b_num - 0.5
+          document.getElementById('b-axis').innerText = last_num.toFixed(2);
+        }
+        else{
+          console.log("값이 없습니다.")
+        }
+      }
+  
+
+
+      
+      // 'Close' 버튼 클릭 이벤트를 처리하는 함수
+function resetAll() {
+  // 테이블 값 초기화
+  document.getElementById('x-axis').innerText = '0';
+  document.getElementById('y-axis').innerText = '0';
+  document.getElementById('z-axis').innerText = '0';
+  document.getElementById('b-axis').innerText = '0';
+
+  // 모든 버튼의 선택된 스타일 제거
+  const activeButtons = document.querySelectorAll('.jog_btn001');
+  activeButtons.forEach(button => {
+    button.classList.remove('jog_btn001'); // 선택 스타일 클래스 제거
+  });
+
+  // 배경색을 원래대로 되돌립니다
+  const hoverButtons = document.querySelectorAll('.jog_button_01, .jog_button_02');
+  hoverButtons.forEach(button => {
+    button.style.backgroundColor = ''; // 배경색을 초기화
+  });
+}
+
+// 'Close' 버튼에 클릭 이벤트 리스너 추가
+document.getElementById('closeButton').addEventListener('click', resetAll);
+
+
+  </script>
+
+</body>
+</html>
